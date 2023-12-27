@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Missile Command Game</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+        }
+
+        .game-container {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+            background-color: #000;
+        }
+
+        .missile-base {
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 20px;
+            height: 20px;
+            background-color: #00ff00;
+            border-radius: 50%;
+        }
+
+        .city {
+            position: absolute;
+            bottom: 0;
+            width: 40px;
+            height: 40px;
+            background-color: #00ff00;
+            border-radius: 5px;
+        }
+
+        .missile {
+            position: absolute;
+            width: 5px;
+            height: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="game-container">
+        <div class="missile-base" id="missile-base"></div>
+        <div class="city" id="city1"></div>
+        <div class="city" id="city2"></div>
+        <div class="city" id="
