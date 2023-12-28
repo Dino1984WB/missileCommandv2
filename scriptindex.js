@@ -8,7 +8,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     document.addEventListener("click", function (event) {
         // Shoot a red missile when the mouse is clicked
-        createRedMissile(event.clientX);
+        createRedMissile(event.clientX, event.clientY);
     });
 
     // Create blue missiles at regular intervals
@@ -26,13 +26,13 @@ document.addEventListener("DOMContentLoaded", function () {
         animateMissile(missile);
     }
 
-    function createRedMissile(initialX) {
+    function createRedMissile(initialX, initialY) {
         const missile = document.createElement("div");
         missile.className = "missile red-missile";
         missile.style.left = initialX + "px";
         missile.style.bottom = "20px"; // Adjust the starting position
         document.body.appendChild(missile);
-        animateRedMissile(missile);
+        animateRedMissile(missile, initialX, initialY);
     }
 
     function animateMissile(missile) {
@@ -53,7 +53,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }, 20);
     }
 
-    function animateRedMissile(missile) {
+    function animateRedMissile(missile, targetX, targetY) {
         let position = { x: parseFloat(missile.style.left), y: parseFloat(missile.style.bottom) };
 
         const missileInterval = setInterval(function () {
@@ -63,11 +63,27 @@ document.addEventListener("DOMContentLoaded", function () {
             // Check for collisions with cities or other game elements
             // Implement your collision detection logic here
 
-            // If the missile reaches the top or collides, stop the animation
+            // If the missile reaches the target or collides, stop the animation
             if (position.y >= window.innerHeight - 20) { // Adjust the ending position
                 clearInterval(missileInterval);
                 document.body.removeChild(missile);
+                
+                // Create explosion at the clicked position
+                createExplosion(targetX, targetY);
             }
         }, 20);
+    }
+
+    function createExplosion(x, y) {
+        const explosion = document.createElement("div");
+        explosion.className = "explosion";
+        explosion.style.left = x + "px";
+        explosion.style.top = y + "px";
+        document.body.appendChild(explosion);
+
+        // Remove the explosion element after a short delay
+        setTimeout(function () {
+            document.body.removeChild(explosion);
+        }, 500);
     }
 });
