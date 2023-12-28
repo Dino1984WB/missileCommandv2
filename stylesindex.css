@@ -29,11 +29,11 @@ body {
 }
 
 .blue-missile {
-    background-color: #00008b; /* Dark blue color */
+    background-color: #00008b;
 }
 
 .red-missile {
-    background-color: #ff0000; /* Red color */
+    background-color: #ff0000;
 }
 
 .explosion {
@@ -43,5 +43,5 @@ body {
     background-color: #ffcc00;
     border-radius: 50%;
     transform: translate(-50%, -50%);
-    pointer-events: none; /* Prevents the explosion from blocking mouse events */
+    pointer-events: none;
 }

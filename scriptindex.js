@@ -23,7 +23,7 @@ document.addEventListener("DOMContentLoaded", function () {
         missile.style.left = randomX + "px";
         missile.style.top = "0px";
         document.body.appendChild(missile);
-        animateMissile(missile);
+        animateMissile(missile, "blue");
     }
 
     function createRedMissile(initialX, initialY) {
@@ -35,21 +35,39 @@ document.addEventListener("DOMContentLoaded", function () {
         animateRedMissile(missile, initialX, initialY);
     }
 
-    function animateMissile(missile) {
+    function animateMissile(missile, type) {
         let position = { x: parseFloat(missile.style.left), y: parseFloat(missile.style.top) };
 
         const missileInterval = setInterval(function () {
-            position.y += 5; // Adjust the speed of the missile
+            position.y += type === "blue" ? 2 : 5; // Adjust the speed of the missile
             missile.style.top = position.y + "px";
 
             // Check for collisions with cities or other game elements
             // Implement your collision detection logic here
 
-            // If the missile reaches the bottom or collides, stop the animation
+            // If the missile reaches the top or collides, stop the animation
             if (position.y >= window.innerHeight) {
                 clearInterval(missileInterval);
                 document.body.removeChild(missile);
             }
+
+            // Check if the missile is within the explosion range
+            const explosions = document.querySelectorAll(".explosion");
+            explosions.forEach((explosion) => {
+                const explosionRadius = 25; // Adjust the explosion radius
+                const explosionCenterX = parseFloat(explosion.style.left) + explosionRadius;
+                const explosionCenterY = parseFloat(explosion.style.top) + explosionRadius;
+
+                const distanceToExplosion = Math.sqrt(
+                    Math.pow(explosionCenterX - position.x, 2) + Math.pow(explosionCenterY - position.y, 2)
+                );
+
+                if (distanceToExplosion < explosionRadius) {
+                    // Missile is within the explosion range, remove it
+                    clearInterval(missileInterval);
+                    document.body.removeChild(missile);
+                }
+            });
         }, 20);
     }
 
@@ -67,7 +85,7 @@ document.addEventListener("DOMContentLoaded", function () {
             if (position.y >= window.innerHeight - 20) { // Adjust the ending position
                 clearInterval(missileInterval);
                 document.body.removeChild(missile);
-                
+
                 // Create explosion at the clicked position
                 createExplosion(targetX, targetY);
             }
